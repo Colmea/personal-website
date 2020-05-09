@@ -1,16 +1,17 @@
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Starter Blog`,
+    title: `Life of a Frontend Engineer`,
     author: {
-      name: `Kyle Mathews`,
-      summary: `who lives and works in San Francisco building useful things.`,
+      name: `Arthur Schwaiger (@colmeo)`,
+      summary: `I'm Arthur Schwaiger (@Colmea), a Frontend Engineer.`,
     },
-    description: `A starter blog demonstrating what Gatsby can do.`,
-    siteUrl: `https://gatsby-starter-blog-demo.netlify.com/`,
+    description: `I'm Arthur Schwaiger (@Colmea), a Frontend Engineer.`,
+    siteUrl: `https://colmea.netlify.com/`,
     social: {
-      twitter: `kylemathews`,
+      twitter: `colmeo`,
     },
   },
+
   plugins: [
     {
       resolve: `gatsby-source-filesystem`,
@@ -60,8 +61,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `Gatsby Starter Blog`,
-        short_name: `GatsbyJS`,
+        name: `Colmea's blog (Arthur Schwaiger)`,
         start_url: `/`,
         background_color: `#ffffff`,
         theme_color: `#663399`,
