@@ -13,14 +13,13 @@ type Data = {
       title: string
     }
   }
-  allMarkdownRemark: {
+  allMdx: {
     edges: {
       node: {
         excerpt: string
         frontmatter: {
           title: string
           date: string
-          description: string
         }
         fields: {
           slug: string
@@ -32,7 +31,7 @@ type Data = {
 
 const BlogIndex = ({ data, location }: PageProps<Data>) => {
   const siteTitle = data.site.siteMetadata.title
-  const posts = data.allMarkdownRemark.edges
+  const posts = data.allMdx.edges
 
   return (
     <Layout location={location} title={siteTitle}>
@@ -57,7 +56,7 @@ const BlogIndex = ({ data, location }: PageProps<Data>) => {
             <section>
               <p
                 dangerouslySetInnerHTML={{
-                  __html: node.frontmatter.description || node.excerpt,
+                  __html: node.excerpt,
                 }}
               />
             </section>
@@ -77,7 +76,7 @@ export const pageQuery = graphql`
         title
       }
     }
-    allMarkdownRemark(sort: { fields: [frontmatter___date], order: DESC }) {
+    allMdx(sort: { fields: [frontmatter___date], order: DESC }) {
       edges {
         node {
           excerpt
@@ -87,7 +86,6 @@ export const pageQuery = graphql`
           frontmatter {
             date(formatString: "MMMM DD, YYYY")
             title
-            description
           }
         }
       }
