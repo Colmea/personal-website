@@ -67,8 +67,12 @@ const Layout = ({ location, title, children }) => {
           paddingTop: 300,
         }}
       >
-        <header style={{ textAlign: 'center' }}>{header}</header>
-        <main>{children}</main>
+        <header style={{ textAlign: 'center' }}>
+          {header}
+        </header>
+        <main style={{ marginBottom: 300 }}>
+          {children}
+        </main>
         <footer>
           © {new Date().getFullYear()} Arthur Schwaiger. built with
           {` `}

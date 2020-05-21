@@ -38,19 +38,18 @@ type GLTFResult = GLTF & {
 export default function Model(props: Props & JSX.IntrinsicElements['group'] ) {
   const group = useRef<THREE.Group>();
   const screenRef = useRef<THREE.Group>();
-  const [screenDirectionIsDown, setScreenDirectionIsDown] = useState(true);
   const { nodes, materials } = useLoader<GLTFResult>(GLTFLoader, '/screen-2.glb');
   const screenDefaultRotation = useRef<THREE.Euler>();
 
   
   // Load CubeTexture for env map
   const cubeTexture = useLoader(CubeTextureLoader, [[
-    'envmap/px.jpg',
-    'envmap/nx.jpg',
-    'envmap/py.jpg',
-    'envmap/ny.jpg',
-    'envmap/pz.jpg',
-    'envmap/nz.jpg'
+    '/envmap/px.jpg',
+    '/envmap/nx.jpg',
+    '/envmap/py.jpg',
+    '/envmap/ny.jpg',
+    '/envmap/pz.jpg',
+    '/envmap/nz.jpg'
   ]]);
 
   cubeTexture.format = THREE.RGBFormat;
@@ -64,7 +63,6 @@ export default function Model(props: Props & JSX.IntrinsicElements['group'] ) {
   let degrees = getMouseDegrees(props.mousePosition.x, props.mousePosition.y, 40);
 
   useEffect(() => {
-    console.log('screen default rot', screenRef.current);
     screenDefaultRotation.current = screenRef.current.rotation.clone();
   }, []);
 
@@ -73,7 +71,6 @@ export default function Model(props: Props & JSX.IntrinsicElements['group'] ) {
   useFrame((state, delta) => {
     if (screenDefaultRotation.current) {
       const rotationFactor = 0.1;
-      const currentRotation = screenRef.current.rotation;
 
       const currentZDeg = THREE.MathUtils.radToDeg(screenDefaultRotation.current.z);
       const currentXDeg = THREE.MathUtils.radToDeg(screenDefaultRotation.current.x);
