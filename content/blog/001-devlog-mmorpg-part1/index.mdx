@@ -12,7 +12,8 @@ I decided to share my journey through the development of my MMORPG with javascri
 
 Is it a Devlog, is it a tutorial ? Both, probably. 
 
-This is what have been done so far:
+This is what have been done so far. You can check the Github repo here: [https://github.com/Colmea/alkito-js-mmorpg](https://github.com/Colmea/alkito-js-mmorpg):
+
 ![Alkito screenshot](./screen-alkito-001.gif)
 
 
@@ -38,7 +39,7 @@ There are many ways to manage this, but the easiest is probably [Tiled](https://
 Tiled is an open-source "tiled" map editor. It will allow us to "paint" a map with tiles (dirt, sand, grass, walls, ...) and export it to be used in our game.
 
 There are a lot of tutorials on the web to create a map with Tiled, but here are the steps:
-1. Create a new map (I chosed a 32px*32px size for each tile).
+1. Create a new map (I chose a 32px*32px size for each tile).
 2. Import a Tileset image (you can find plenty on the internet, but choose one with 32px tiles).
 3. Create a layer `ground` and paint ground tiles.
 4. Create a layer `objects` and paint additional object tiles.
@@ -97,3 +98,110 @@ export default class WorldScene extends Phaser.Scene {
   }
 }
 ```
+
+You should now have something like this in your browser:
+![Tiled map in Phaser.js](./tiled-map-phaser.jpg)
+
+
+## Let us make man
+
+Ok, enough with biblical reference.
+
+To finalize this environment, we need a player.
+Again, we will use a Sprite Sheet. You can easily create one online with this awesome tool: 
+[Online Character Generator](http://gaurav.munjal.us/Universal-LPC-Spritesheet-Character-Generator/).
+
+Click on "Save Result As PNG" at the bottom of the screen to download your sprite sheet.
+
+![Player Spritesheet](./player-sprite-screenshot.gif)
+
+> /!\ Spritesheets from this tool are 64\*64px, you should resize them to 32\*32px to fit our 32px tiles.
+
+We just need to import this spritesheet, then make the camera follows our player:
+
+```javascript
+preload() {
+  ...
+
+  // Load player spritesheet. I set them to 32px because I resized it
+  this.load.spritesheet('player', 'assets/player-spritesheet.png', { frameWidth: 32, frameHeight: 32 });
+}
+
+create() {
+  ...
+
+  // Create the Player from our sprite sheet
+  // - 100 are the X and Y position
+  // - 'player' is the key of the spritesheet
+  // - 31 is the frame I want to use in our spritesheet (i.e. the 31th tile)
+  this.player = this.add.sprite(100, 100, 'player', 31);
+}
+
+```
+
+
+And tada !
+![Player in Phaser Map](./tiled-map-phaser-player.jpg)
+
+
+## Move our player
+
+
+Next step, we need to find a way to move our player on the map.
+I started with the most simple gameplay: move with keyboard.
+
+```javascript
+
+create() {
+  ...
+
+  // Enable physics for our player
+  this.physics.world.enable(this.player);
+
+  // Setup camera to follows our player within the map
+  this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
+  this.cameras.main.startFollow(this.player);
+
+  // Setup keyboard keys
+  this.keys = this.input.keyboard.addKeys({
+    up: 'up',
+    down: 'down',
+    left: 'left',
+    right: 'right'
+  });
+}
+
+update() {
+  // playerBody is the physic body attached to our player
+  const playerBody= this.player.body;
+  const speed = 50;
+
+  // on each update, we detect if one of our key is down
+  // and update the player's velocity accordingly
+  if (this.keys.up.isDown)
+    playerBody.setVelocityY(-speed);
+  else if (this.keys.down.isDown)
+    playerBody.setVelocityY(speed);
+  else if (this.keys.left.isDown)
+    playerBody.setVelocityX(-speed);
+  else if (this.keys.right.isDown)
+    playerBody.setVelocityX(speed);
+  else
+    playerBody.setVelocity(0);
+}
+```
+
+
+We now have a player, moving with our keyboard, and a camera which follows it.
+
+![Player move in Phaser map](./player-move-screenshot.gif)
+
+
+
+### Conclusion
+
+There is still a lot to do: add animations, add collisions with objects, ...
+
+But you'll need to wait for the next Devlog ;)
+
+Cheers !
