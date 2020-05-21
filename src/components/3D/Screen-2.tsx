@@ -83,7 +83,6 @@ export default function Model(props: Props & JSX.IntrinsicElements['group'] ) {
     }
   });
 
-
   return (
     <group ref={group} {...props} dispose={null}>
       <group position={[-2.1, -0.23, -0.48]} rotation={[Math.PI / 2, 0, -3.14]}>
