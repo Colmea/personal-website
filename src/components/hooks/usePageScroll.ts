@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import throttle from 'lodash.throttle';
 
 const usePageScroll = () => {
   const [pageScroll, setPageScroll] = useState({});
@@ -11,12 +12,14 @@ const usePageScroll = () => {
       setPageScroll({ scrollTop, scrollLeft });
     };
 
-    window.addEventListener("scroll", getPageScroll);
+    const throttledPageScroll = throttle(getPageScroll, 40);
+
+    window.addEventListener("scroll", throttledPageScroll);
 
     return function cleanup() {
-      window.removeEventListener("scroll", getPageScroll);
+      window.removeEventListener("scroll", throttledPageScroll);
     };
-  });
+  }, []);
 
   return pageScroll;
 };

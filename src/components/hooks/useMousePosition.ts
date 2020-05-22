@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import throttle from 'lodash.throttle';
 
 // Credits to @crowderz
 // https://codesandbox.io/s/x2v5qnjz3z?file=/src/useMousePos.js:0-475
@@ -12,12 +13,14 @@ const useMousePosition = () => {
       setMousePosition({ x, y });
     };
 
-    document.addEventListener("mousemove", getMousePosition);
+    const throttledMousePosition = throttle(getMousePosition, 30);
+
+    document.addEventListener("mousemove", throttledMousePosition);
 
     return function cleanup() {
-      document.removeEventListener("mousemove", getMousePosition);
+      document.removeEventListener("mousemove", throttledMousePosition);
     };
-  });
+  }, []);
 
   return mousePosition;
 };
