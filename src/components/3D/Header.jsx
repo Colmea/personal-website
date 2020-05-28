@@ -1,7 +1,9 @@
 import React, { Suspense, useRef } from 'react'
 import { Canvas, useFrame, useThree } from 'react-three-fiber';
+import * as THREE from 'three';
 import lerp from "lerp";
 import Screen2 from './Screen-2';
+import Me from './Me';
 import useMousePosition from "../hooks/useMousePosition";
 import usePageScroll from '../hooks/usePageScroll';
 
@@ -23,17 +25,29 @@ export default function Header(props) {
     const mousePosition = useMousePosition();
     const { scrollTop } = usePageScroll();
 
+    // COmpute new camera Y position following page scroll
     const newCameraYOffset = scrollTop ? scrollTop / 50 : 0;
+
+    // Animate little Me if user hover a link
+    const hoveredElement = document.elementFromPoint(mousePosition.x || 0, mousePosition.y || 0);
+    const isCursorOnLink = hoveredElement && hoveredElement.tagName === 'A';
 
     return (    
         <Canvas colorManagement  camera={{ position: [0, 10, 30], fov: 50, near: 0.1, far: 100 }}>
-            <pointLight color="lightblue" position={[3, 10, 5]} intensity={1} />
-            <pointLight position={[10, 10, -10]} color="orange" intensity={4} />
-            <pointLight position={[-10, -10, 10]} color="indianred" intensity={3} />
+            <pointLight color="orange" position={[3, 10, 5]} intensity={0.7} />
+            <pointLight position={[10, 10, -10]} color="orange" intensity={0.2} />
+            <pointLight position={[-10, -10, 10]} color="indianred" intensity={0.1} />
             <ambientLight />
             <Suspense fallback={null}>
                 <BootScene cameraYOffset={newCameraYOffset} />
                 <Screen2 mousePosition={mousePosition} position={[0, -0.2, 0]} scale={[2, 2, 2]}  />
+                <Me
+                    isCursorOnLink={isCursorOnLink}
+                    mousePosition={mousePosition}
+                    position={[-5, -1.4 , 0]}
+                    scale={[.9, .9, .9]}
+                    rotation={[0, THREE.MathUtils.degToRad(50), 0]}
+                    />
             </Suspense>
         </Canvas>
     );

@@ -68,17 +68,17 @@ export default function Model(props: Props & JSX.IntrinsicElements['group'] ) {
 
   // Update screen position
   const speed = 0.05;
-  useFrame((state, delta) => {
-    if (screenDefaultRotation.current) {
-      const rotationFactor = 0.1;
+  // useFrame((state, delta) => {
+  //   if (screenDefaultRotation.current) {
+  //     const rotationFactor = 0.1;
 
-      const currentZDeg = THREE.MathUtils.radToDeg(screenDefaultRotation.current.z);
-      const currentXDeg = THREE.MathUtils.radToDeg(screenDefaultRotation.current.x);
+  //     const currentZDeg = THREE.MathUtils.radToDeg(screenDefaultRotation.current.z);
+  //     const currentXDeg = THREE.MathUtils.radToDeg(screenDefaultRotation.current.x);
 
-      screenRef.current.rotation.x = THREE.Math.degToRad(currentXDeg + (degrees.y * rotationFactor));
-      screenRef.current.rotation.z = THREE.Math.degToRad(currentZDeg - (degrees.x * rotationFactor));
-    }
-  });
+  //     screenRef.current.rotation.x = THREE.Math.degToRad(currentXDeg + (degrees.y * rotationFactor));
+  //     screenRef.current.rotation.z = THREE.Math.degToRad(currentZDeg - (degrees.x * rotationFactor));
+  //   }
+  // });
 
   return (
     <group ref={group} {...props} dispose={null}>

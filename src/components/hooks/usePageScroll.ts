@@ -12,7 +12,7 @@ const usePageScroll = () => {
       setPageScroll({ scrollTop, scrollLeft });
     };
 
-    const throttledPageScroll = throttle(getPageScroll, 40);
+    const throttledPageScroll = throttle(getPageScroll, 25);
 
     window.addEventListener("scroll", throttledPageScroll);
 
