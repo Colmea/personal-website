@@ -1,4 +1,4 @@
-import React, { Suspense, useRef } from 'react'
+import React, { Suspense, useRef, useEffect, useState } from 'react'
 import { Canvas, useFrame, useThree } from 'react-three-fiber';
 import * as THREE from 'three';
 import lerp from "lerp";
@@ -24,13 +24,16 @@ const BootScene = ({ cameraYOffset }) => {
 export default function Header(props) {
     const mousePosition = useMousePosition();
     const { scrollTop } = usePageScroll();
+    const [isCursorOnLink, setIsCursorOnLink] = useState(false);
 
     // COmpute new camera Y position following page scroll
     const newCameraYOffset = scrollTop ? scrollTop / 50 : 0;
 
-    // Animate little Me if user hover a link
-    const hoveredElement = document.elementFromPoint(mousePosition.x || 0, mousePosition.y || 0);
-    const isCursorOnLink = hoveredElement && hoveredElement.tagName === 'A';
+    // Check if user hover a link (used to animate mini-me)
+    useEffect(() => {
+        const hoveredElement = document.elementFromPoint(mousePosition.x || 0, mousePosition.y || 0);
+        setIsCursorOnLink(hoveredElement && hoveredElement.tagName === 'A');
+    });
 
     return (    
         <Canvas colorManagement  camera={{ position: [0, 10, 30], fov: 50, near: 0.1, far: 100 }}>
