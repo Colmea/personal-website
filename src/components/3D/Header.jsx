@@ -27,7 +27,7 @@ export default function Header(props) {
     const [isCursorOnLink, setIsCursorOnLink] = useState(false);
 
     // COmpute new camera Y position following page scroll
-    const newCameraYOffset = scrollTop ? scrollTop / 50 : 0;
+    const newCameraYOffset = scrollTop ? scrollTop / 75 : 0;
 
     // Check if user hover a link (used to animate mini-me)
     useEffect(() => {
